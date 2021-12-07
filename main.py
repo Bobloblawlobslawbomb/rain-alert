@@ -28,4 +28,12 @@ weather_data = response.json()
 
 half_day = weather_data["hourly"][:12]
 
-print(half_day)
+will_it_rain = False
+
+for hour_data in half_day:
+    code = int(hour_data["weather"][0]["id"])
+    if code < 700:
+        will_rain = True
+
+if will_it_rain:
+    print("It's gonna rain!")
