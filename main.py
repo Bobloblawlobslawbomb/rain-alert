@@ -1,6 +1,7 @@
 import os
 from os.path import join, dirname
 import requests
+from twilio.rest import Client
 from dotenv import load_dotenv
 
 
@@ -14,6 +15,11 @@ load_dotenv(dotenv_path)
 
 
 api_key = os.environ.get('API_KEY')
+account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+phone_to = os.environ.get('PHONE_TO')
+phone_from = os.environ.get('PHONE_FROM')
+
 
 ashland = {
     "lat": ASH_LAT,
@@ -36,4 +42,12 @@ for hour_data in half_day:
         will_rain = True
 
 if will_it_rain:
-    print("It's gonna rain!")
+    client = Client(account_sid, auth_token)
+
+    message = client.messages \
+                    .create(
+                        body="It's going to rain today. Bring an umbrella.",
+                        from_=phone_from,
+                        to=phone_to
+                    )
+    print(message.status)
