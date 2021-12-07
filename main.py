@@ -1,6 +1,6 @@
 import os
-import requests
 from os.path import join, dirname
+import requests
 from dotenv import load_dotenv
 
 
@@ -26,4 +26,6 @@ response = requests.get(END_POINT, params=ashland)
 response.raise_for_status()
 weather_data = response.json()
 
-print(weather_data)
+half_day = weather_data["hourly"][:12]
+
+print(half_day)
